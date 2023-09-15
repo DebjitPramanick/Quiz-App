@@ -71,6 +71,16 @@ class QuizModel {
     }
   }
 
+  async getAll(fields?: any): Promise<IQuiz[]> {
+    try {
+      const quizes = await this.model.find({}, fields).lean();
+      return quizes;
+    } catch (error) {
+      logger.error("QuizModel: getAll", error);
+      throw error;
+    }
+  }
+
   async create(data: Partial<IQuiz>): Promise<IQuiz> {
     try {
       const quiz = await this.model.create(data);
