@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import { Button } from "../styles/component";
 import { PageLayout } from "../styles/layouts";
-import { StartPage } from "../styles/pages";
-import Report from "./Report";
+import { StartPageLayout } from "../styles/layouts";
+import { useNavigate } from "react-router-dom";
 
-const Quiz = () => {
-  const [quizStatus, setQuizStatus] = useState<
-    "idle" | "in-progress" | "finished"
-  >("idle");
+const StartPage = () => {
+
+  const navigate = useNavigate();
 
   const handleStartQuiz = async () => {
     try {
-      
+      navigate(`quiz/1/question/q-1`);
     } catch (error) {
       console.log(error);
     }
@@ -18,12 +17,12 @@ const Quiz = () => {
 
   return (
     <PageLayout>
-      <StartPage>
+      <StartPageLayout>
         <div className="circle">Quiz</div>
-        <button onClick={handleStartQuiz}>Start</button>
-      </StartPage>
+        <Button onClick={handleStartQuiz}>Start</Button>
+      </StartPageLayout>
     </PageLayout>
   );
 };
 
-export default Quiz;
+export default StartPage;

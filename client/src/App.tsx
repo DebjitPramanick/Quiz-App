@@ -1,9 +1,9 @@
 import React from "react";
 import Quiz from "./pages/StartPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { StartPage } from "./styles/pages";
-import Questions from "./components/Questions";
 import Report from "./pages/Report";
+import StartPage from "./pages/StartPage";
+import Questions from "./pages/Questions";
 
 function App() {
   return (
@@ -21,7 +21,6 @@ function App() {
           ></Route>
         </Routes>
       </Router>
-      <Quiz />
     </div>
   );
 }
