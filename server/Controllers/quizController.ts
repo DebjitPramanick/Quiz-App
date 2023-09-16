@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import logger from "../Utils/Logger";
 import { IQuestion, IQuiz } from "../Types";
 import { getQuestionPoints, getQuizScore } from "../Utils/scoringHelper";
+import QUESTIONS from "../Questions.json";
 
 export const getQuiz = async (req: Request, res: Response) => {
   try {
@@ -41,10 +42,15 @@ export const startQuiz = async (req: Request, res: Response) => {
     const data: Partial<IQuiz> = req.body ?? {};
     data.status = "in-progress";
     const result = await Database.Quiz.create(data);
+
+    // Get static questions
+    const questions = await Database.Question.getAll();
+
     logger.info("Quiz started");
     res.status(200).json({
       success: true,
       result,
+      questions,
     });
   } catch (err: any) {
     logger.error(err);

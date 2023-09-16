@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
-import QuizModel from "./QuizModel.js";
-import logger from "../Utils/Logger.js";
+import QuizModel from "./QuizModel";
+import logger from "../Utils/Logger";
+import QuestionModel from "./QuestionModel";
 
 class Database {
   connection!: mongoose.Connection;
   Quiz!: QuizModel;
+  Question!: QuestionModel;
 
   constructor() {}
 
@@ -14,17 +16,16 @@ class Database {
     } catch (err) {
       throw err;
     }
-    logger.info("MongoDB Database is connected");
     let conn = this.connection;
     this.Quiz = new QuizModel(conn);
+    this.Question = new QuestionModel(conn);
     return;
   }
 
   async authenticate() {
-    logger.info("Authenticating to the databases.");
+    logger.info("Authenticating to the database.");
     try {
       this.connection = await mongoose.createConnection(process.env.MONGO_URI!);
-
       logger.info("DB connected");
     } catch (err: any) {
       logger.error(`Failed connection to the DB: ${err.message}`);

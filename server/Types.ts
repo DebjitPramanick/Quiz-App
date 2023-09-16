@@ -11,7 +11,9 @@ export interface IQuestion {
   correct_answer: string;
   incorrect_answers: string[];
   type: string;
-  timeTaken: number;
+  timeTaken?: number;
+  questionImg?: string;
+  category: string;
 }
 
 export interface IQuiz {

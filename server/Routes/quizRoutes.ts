@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.get("/:quizId", getQuiz);
 router.get("/all", getQuiz);
-router.get("/start", startQuiz);
-router.get("/:quizId/answer", saveQuestionWithAnswer);
-router.get("/:quizId/finish", finishQuiz);
+router.post("/start", startQuiz);
+router.post("/:quizId/answer", saveQuestionWithAnswer);
+router.post("/:quizId/finish", finishQuiz);
 
 export default router;

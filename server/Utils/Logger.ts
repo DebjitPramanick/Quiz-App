@@ -2,7 +2,12 @@ import pino from "pino";
 
 const logger = pino({
   level: "info",
-  prettyPrint: true,
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true
+    }
+  }
 });
 
 export default logger;

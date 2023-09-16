@@ -1,15 +1,21 @@
+import { startQuiz } from "../api/quiz.api";
 import { Button } from "../styles/component";
 import { PageLayout } from "../styles/layouts";
 import { StartPageLayout } from "../styles/layouts";
 import { useNavigate } from "react-router-dom";
 
 const StartPage = () => {
-
   const navigate = useNavigate();
 
   const handleStartQuiz = async () => {
     try {
-      navigate(`quiz/1/question/q-1`);
+      const response: any = await startQuiz();
+      console.log(response)
+      if(response.success) {
+        const firstQuestion = response.questions?.[0];
+        const quizId = response.result._id;
+        navigate(`quiz/${quizId}/question/${firstQuestion._id}`);
+      }
     } catch (error) {
       console.log(error);
     }
