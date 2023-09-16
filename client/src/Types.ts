@@ -1,12 +1,9 @@
-import mongoose from "mongoose";
-
-export type IdOrString = string | mongoose.Types.ObjectId;
 
 export interface IQuestion {
-  _id?: IdOrString;
+  _id?: string;
   question: string;
   difficulty: "easy" | "medium" | "hard";
-  score: number;
+  points: number;
   answer: string;
   correct_answer: string;
   incorrect_answers: string[];
@@ -17,8 +14,8 @@ export interface IQuestion {
 }
 
 export interface IQuiz {
-  _id: IdOrString;
-  totalScore: number;
+  _id: string;
+  totalPoints: number;
   obtained: number;
   username: string;
   questions: IQuestion[];

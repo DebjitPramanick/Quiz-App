@@ -11,15 +11,9 @@ export const startQuiz = async () => {
   }
 };
 
-export const saveAnswerForQuestion = async ({
-  quizId,
-  data,
-}: {
-  quizId: string;
-  data: any;
-}): Promise<any> => {
+export const getQuiz = async (quizId: string) => {
   try {
-    let result = await api.post(`/quiz/${quizId}/answer`, {});
+    let result = await api.get(`/quiz/${quizId}`);
     result = result.data;
     return result;
   } catch (error: any) {
@@ -28,9 +22,29 @@ export const saveAnswerForQuestion = async ({
   }
 };
 
-export const finishQuiz = async () => {
+export const saveAnswerForQuestion = async ({
+  quizId,
+  data,
+}: {
+  quizId: string;
+  data: {
+    questionId: string;
+    answer: string;
+  };
+}): Promise<any> => {
   try {
-    let result = await api.post(`/quiz/finish`, {});
+    let result = await api.post(`/quiz/${quizId}/answer`, data);
+    result = result.data;
+    return result;
+  } catch (error: any) {
+    const message = error.response.data.message;
+    throw new Error(message);
+  }
+};
+
+export const finishQuiz = async (quizId: string) => {
+  try {
+    let result = await api.post(`/quiz/${quizId}/finish`, {});
     result = result.data;
     return result;
   } catch (error: any) {

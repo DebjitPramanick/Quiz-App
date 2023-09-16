@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PageLayout, QuestionPageLayout } from "../styles/layouts";
 import { QuestionSection } from "../styles/pages";
 import Option from "../components/Option";
@@ -12,15 +12,79 @@ import ArrowIcon from "../assets/ArrowIcon";
 import Decorations from "../assets/Decorations";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getQuiz, saveAnswerForQuestion } from "../api/quiz.api";
+import { IQuestion, IQuiz } from "../Types";
 
 const Questions = () => {
   const navigate = useNavigate();
+  const params = useParams();
+
+  const [quiz, setQuiz] = useState<IQuiz | null>(null);
+  const [question, setQuestion] = useState<IQuestion | null>(null);
+  const [curQuestionNum, setCurQuestionNum] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("");
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const quizId = params.quizId;
+        const questionId = params.questionId;
+        if (quizId) {
+          const respone: any = await getQuiz(quizId);
+          const _quiz: IQuiz = respone.result;
+          const _questionIdx =
+            _quiz.questions?.findIndex(
+              (_question) => _question._id === questionId
+            ) ?? null;
+          const _question = _quiz.questions?.[_questionIdx];
+          setQuiz(respone.result);
+          setQuestion(_question);
+          setCurQuestionNum(_questionIdx + 1);
+        }
+      } catch (error) {}
+    };
+
+    if (params.quizId && params.questionId) {
+      fetchQuiz();
+    }
+  }, [params.questionId, params.quizId]);
 
   const handleGoToNext = async () => {
     try {
-      navigate("/quiz/1/report");
+      if (!quiz?._id || !question?._id || !selectedOption) {
+        return;
+      }
+      const answer = selectedOption;
+      const response = await saveAnswerForQuestion({
+        quizId: quiz._id,
+        data: {
+          questionId: question._id,
+          answer,
+        },
+      });
+      if (response.success) {
+        const isLastQuestion = curQuestionNum === quiz.questions.length;
+
+        if (isLastQuestion) {
+          navigate(`/quiz/${quiz._id}/report`);
+        } else {
+          const nextQuestionId = quiz.questions[curQuestionNum]?._id;
+          if (nextQuestionId) {
+            navigate(`/quiz/${quiz._id}/question/${nextQuestionId}`);
+          } else {
+            navigate(`/quiz/${quiz._id}/report`);
+          }
+        }
+      }
     } catch (error) {}
+  };
+
+  const getOptions = () => {
+    if (!question) return [];
+    const options = [...(question.incorrect_answers ?? [])];
+    options.push(question.correct_answer);
+    return options;
   };
 
   return (
@@ -41,19 +105,30 @@ const Questions = () => {
               />
               <div className="question-count">
                 <div className="txt-container">
-                  <p className="current-qc">1</p>
-                  <p className="total-qc">/5</p>
+                  <p className="current-qc">{curQuestionNum}</p>
+                  <p className="total-qc">/{quiz?.questions.length}</p>
                 </div>
               </div>
             </div>
           </Progress>
           <QAContainer style={{ marginTop: "100px" }}>
-            <QuestionText>What is your name?</QuestionText>
-            {[1, 2, 3, 4].map((_option) => (
-              <Option />
+            <QuestionText>{question?.question}</QuestionText>
+            {getOptions().map((_option) => (
+              <Option
+                key={_option}
+                option={_option}
+                selectOption={(value) => {
+                  setSelectedOption(value);
+                }}
+                selected={selectedOption}
+              />
             ))}
           </QAContainer>
-          <Button style={{ margin: "auto" }} onClick={handleGoToNext}>
+          <Button
+            style={{ margin: "auto" }}
+            onClick={handleGoToNext}
+            disabled={!selectedOption}
+          >
             Next <ArrowIcon size={20} />
           </Button>
         </QuestionSection>

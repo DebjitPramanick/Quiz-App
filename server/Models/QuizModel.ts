@@ -11,7 +11,7 @@ class QuizModel {
     difficulty: {
       type: String,
     },
-    points: {
+    score: {
       type: Number,
     },
     answer: {
@@ -31,7 +31,7 @@ class QuizModel {
     },
   };
   schemaDef = {
-    totalPoints: {
+    totalScore: {
       type: Number,
       default: 0,
     },
@@ -121,14 +121,26 @@ class QuizModel {
     data,
   }: {
     id: IdOrString;
-    data: Partial<IQuiz>;
+    data: {
+      questionId: string;
+      answer: string;
+      score?: number;
+    };
   }): Promise<IQuiz | null> {
     try {
+      const questionId = new mongoose.Types.ObjectId(data.questionId);
+
       const quiz = await this.model
         .findOneAndUpdate(
-          { _id: id },
           {
-            $push: { questions: data },
+            _id: id,
+            "questions._id": questionId,
+          },
+          {
+            $set: {
+              "questions.$.answer": data.answer,
+              "questions.$.score": data.score
+            },
           }
         )
         .lean();

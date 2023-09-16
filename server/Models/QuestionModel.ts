@@ -11,7 +11,7 @@ class QuestionModel {
     difficulty: {
       type: String,
     },
-    points: {
+    score: {
       type: Number,
     },
     answer: {
@@ -31,9 +31,9 @@ class QuestionModel {
     },
   };
   constructor(db: mongoose.Connection) {
-    const quizSchema = new mongoose.Schema<IQuestion>(this.schemaDef);
-    quizSchema.set("timestamps", true);
-    this.model = db.model<IQuestion>("Questions", quizSchema);
+    const questionSchema = new mongoose.Schema<IQuestion>(this.schemaDef);
+    questionSchema.set("timestamps", true);
+    this.model = db.model<IQuestion>("Questions", questionSchema);
   }
 
   async get({
@@ -44,7 +44,9 @@ class QuestionModel {
     fields?: any;
   }): Promise<IQuestion | null> {
     try {
-      const question = await this.model.findOne({ _id: id }, fields).lean();
+      const question = await this.model
+        .findOne({ _id: new mongoose.Types.ObjectId(id) }, fields)
+        .lean();
       return question;
     } catch (error) {
       logger.error("QuestionModel: get", error);

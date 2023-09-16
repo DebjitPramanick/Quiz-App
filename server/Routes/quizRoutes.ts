@@ -1,6 +1,7 @@
 import express from "express";
 import {
   finishQuiz,
+  getAllQuizes,
   getQuiz,
   saveQuestionWithAnswer,
   startQuiz,
@@ -9,7 +10,7 @@ import {
 const router = express.Router();
 
 router.get("/:quizId", getQuiz);
-router.get("/all", getQuiz);
+router.get("/all", getAllQuizes);
 router.post("/start", startQuiz);
 router.post("/:quizId/answer", saveQuestionWithAnswer);
 router.post("/:quizId/finish", finishQuiz);

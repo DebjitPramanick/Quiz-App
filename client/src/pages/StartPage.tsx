@@ -10,9 +10,9 @@ const StartPage = () => {
   const handleStartQuiz = async () => {
     try {
       const response: any = await startQuiz();
-      console.log(response)
       if(response.success) {
-        const firstQuestion = response.questions?.[0];
+        const quiz = response.result;
+        const firstQuestion = quiz.questions?.[0];
         const quizId = response.result._id;
         navigate(`quiz/${quizId}/question/${firstQuestion._id}`);
       }

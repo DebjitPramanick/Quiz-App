@@ -1,11 +1,29 @@
 import React from "react";
 import { OptionCard } from "../styles/component";
 
-const Option = () => {
+const Option = ({
+  option,
+  selected,
+  selectOption,
+}: {
+  option: string;
+  selected: string;
+  selectOption: (_opt: string) => void;
+}) => {
   return (
-    <OptionCard className={true ? "selected-opt" : ""}>
-      <input type="radio" style={{ width: "18px", cursor: "pointer" }}></input>
-      <p>Option A</p>
+    <OptionCard
+      className={selected === option ? "selected-opt" : ""}
+      onClick={() => selectOption(option)}
+    >
+      <input
+        type="radio"
+        style={{ width: "18px", cursor: "pointer" }}
+        checked={selected === option}
+        onChange={() => {
+          selectOption(option);
+        }}
+      ></input>
+      <p>{option}</p>
     </OptionCard>
   );
 };
