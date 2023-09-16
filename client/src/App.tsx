@@ -16,7 +16,7 @@ function App() {
             element={<Questions />}
           ></Route>
           <Route
-            path="/quiz/:quizId/report/:reportId"
+            path="/quiz/:quizId/report"
             element={<Report />}
           ></Route>
         </Routes>

@@ -100,3 +100,68 @@ export const Progress = styled.div`
     }
   }
 `;
+
+export const ResultText = styled.p`
+  color: #000;
+  text-align: center;
+  font-family: Nunito;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 56px;
+`;
+
+export const AnswersCountCard = styled.div`
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  padding: 30px 20px;
+  border-radius: 10px;
+  background: #f3f4fa;
+  color: #000;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  cursor: pointer;
+  align-items: center;
+
+  .correct-dot {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: #44b77b;
+    border-radius: 100%;
+  }
+
+  .incorrect-dot {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: #ff3b3f;
+    border-radius: 100%;
+  }
+
+  &.correct {
+    background: #44b77b1c;
+  }
+
+  &.incorrect {
+    background: #ff3b3f1c;
+  }
+
+  .ans-count {
+    color: #000;
+    font-family: Source Sans Pro;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .ans-status {
+    color: #000;
+    font-family: Source Sans Pro;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+  }
+`;

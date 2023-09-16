@@ -12,8 +12,17 @@ import ArrowIcon from "../assets/ArrowIcon";
 import Decorations from "../assets/Decorations";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router-dom";
 
 const Questions = () => {
+  const navigate = useNavigate();
+
+  const handleGoToNext = async () => {
+    try {
+      navigate("/quiz/1/report");
+    } catch (error) {}
+  };
+
   return (
     <PageLayout>
       <QuestionPageLayout>
@@ -44,7 +53,7 @@ const Questions = () => {
               <Option />
             ))}
           </QAContainer>
-          <Button style={{ margin: "auto" }}>
+          <Button style={{ margin: "auto" }} onClick={handleGoToNext}>
             Next <ArrowIcon size={20} />
           </Button>
         </QuestionSection>
