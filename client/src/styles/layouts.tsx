@@ -1,9 +1,13 @@
 import { styled } from "styled-components";
 
 export const PageLayout = styled.div`
-  width: 30vw;
+  width: 400px;
   margin: auto;
   min-height: 100vh;
+
+  @media(max-width: 400px) {
+    width: 100vw
+  }
 `;
 
 export const StartPageLayout = styled.div`
@@ -44,9 +48,11 @@ export const StartPageLayout = styled.div`
 `;
 
 export const QuestionPageLayout = styled.div`
-  background-image: linear-gradient(360deg, #af9cf3, #af9cf300);
+  background: #AF9CF3;
   height: 100vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   button {
     position: absolute;
@@ -54,5 +60,10 @@ export const QuestionPageLayout = styled.div`
     left: 0;
     right: 0;
     margin: auto;
+  }
+
+  .decorations {
+    position: absolute;
+    top: -30px;
   }
 `;

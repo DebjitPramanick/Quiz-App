@@ -44,9 +44,9 @@ class QuizModel {
       default: "",
     },
     questions: [this.questionSchema],
-    isFinished: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      enum: ["in-progress", "finished"],
     },
   };
   constructor(db: mongoose.Connection) {

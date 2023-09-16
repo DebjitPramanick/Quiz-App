@@ -2,19 +2,51 @@ import React from "react";
 import { PageLayout, QuestionPageLayout } from "../styles/layouts";
 import { QuestionSection } from "../styles/pages";
 import Option from "../components/Option";
-import { Button, QuestionText } from "../styles/component";
+import {
+  Button,
+  QAContainer,
+  Progress,
+  QuestionText,
+} from "../styles/component";
+import ArrowIcon from "../assets/ArrowIcon";
+import Decorations from "../assets/Decorations";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const Questions = () => {
   return (
     <PageLayout>
       <QuestionPageLayout>
-        Dec
+        <div className="decorations">
+          <Decorations />
+        </div>
+        <div></div>
         <QuestionSection>
-          <QuestionText>What is your name?</QuestionText>
-          {[1, 2, 3, 4].map((_option) => (
-            <Option />
-          ))}
-          <Button style={{margin: "auto"}}>Next</Button>
+          <Progress>
+            <div className="container">
+              <CircularProgressbar
+                value={66}
+                styles={buildStyles({
+                  pathColor: "#44B77B",
+                })}
+              />
+              <div className="question-count">
+                <div className="txt-container">
+                  <p className="current-qc">1</p>
+                  <p className="total-qc">/5</p>
+                </div>
+              </div>
+            </div>
+          </Progress>
+          <QAContainer style={{ marginTop: "100px" }}>
+            <QuestionText>What is your name?</QuestionText>
+            {[1, 2, 3, 4].map((_option) => (
+              <Option />
+            ))}
+          </QAContainer>
+          <Button style={{ margin: "auto" }}>
+            Next <ArrowIcon size={20} />
+          </Button>
         </QuestionSection>
       </QuestionPageLayout>
     </PageLayout>

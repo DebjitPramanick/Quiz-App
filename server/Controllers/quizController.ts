@@ -1,7 +1,7 @@
 import Database from "../Models/Database";
 import { Request, Response } from "express";
 import logger from "../Utils/Logger";
-import { IQuestion } from "../Types";
+import { IQuestion, IQuiz } from "../Types";
 import { getQuestionPoints, getQuizScore } from "../Utils/scoringHelper";
 
 export const getQuiz = async (req: Request, res: Response) => {
@@ -38,7 +38,8 @@ export const getAllQuizes = async (req: Request, res: Response) => {
 
 export const startQuiz = async (req: Request, res: Response) => {
   try {
-    const data = req.body ?? {};
+    const data: Partial<IQuiz> = req.body ?? {};
+    data.status = "in-progress";
     const result = await Database.Quiz.create(data);
     logger.info("Quiz started");
     res.status(200).json({
@@ -93,7 +94,7 @@ export const finishQuiz = async (req: Request, res: Response) => {
       data: {
         totalPoints: score.totalPoints,
         obtained: score.obtained,
-        isFinished: true,
+        status: "finished",
       },
     });
     logger.info("Quiz report generated");

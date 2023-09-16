@@ -1,13 +1,13 @@
-import React from 'react'
-import { OptionCard } from '../styles/component'
+import React from "react";
+import { OptionCard } from "../styles/component";
 
 const Option = () => {
   return (
-    <OptionCard>
-      <input type='radio'></input>
+    <OptionCard className={true ? "selected-opt" : ""}>
+      <input type="radio" style={{ width: "18px", cursor: "pointer" }}></input>
       <p>Option A</p>
-    </OptionCard> 
-  )
-}
+    </OptionCard>
+  );
+};
 
-export default Option
+export default Option;

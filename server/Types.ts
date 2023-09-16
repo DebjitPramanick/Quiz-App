@@ -20,5 +20,5 @@ export interface IQuiz {
   obtained: number;
   username: string;
   questions: IQuestion[];
-  isFinished: boolean;
+  status: "in-progress" | "finished";
 }
