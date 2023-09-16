@@ -59,7 +59,8 @@ export const startQuiz = async (req: Request, res: Response) => {
 export const saveQuestionWithAnswer = async (req: Request, res: Response) => {
   try {
     const id = req.params.quizId;
-    const data: { questionId: string; answer: string } = req.body ?? {};
+    const data: { questionId: string; answer: string; timeTaken: number } =
+      req.body ?? {};
 
     const question = await Database.Question.get({
       id: data.questionId,
@@ -73,6 +74,7 @@ export const saveQuestionWithAnswer = async (req: Request, res: Response) => {
       questionId: string;
       answer: string;
       score?: number;
+      timeTaken: number;
     } = { ...data };
 
     const isCorrect = question.correct_answer === data.answer;
@@ -149,6 +151,7 @@ export const getReport = async (req: Request, res: Response) => {
       percentage: 0,
       totalScore: quiz.totalScore,
       obtained: quiz.obtained,
+      totalTime: 0,
     };
 
     result.percentage = Math.floor((quiz.obtained / quiz.totalScore) * 100);
@@ -158,6 +161,11 @@ export const getReport = async (req: Request, res: Response) => {
     result.inCorrect = quiz.questions.filter(
       (_q) => _q.correct_answer !== _q.answer
     ).length;
+
+    result.totalTime = quiz.questions.reduce(
+      (prev, cur) => (cur.timeTaken ?? 0) + prev,
+      0
+    );
 
     res.status(200).json({
       success: true,

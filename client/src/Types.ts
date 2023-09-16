@@ -27,4 +27,5 @@ export interface IReport {
   percentage: number;
   totalScore: number;
   obtained: number;
+  totalTime: number;
 }

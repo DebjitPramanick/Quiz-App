@@ -30,6 +30,7 @@ export const saveAnswerForQuestion = async ({
   data: {
     questionId: string;
     answer: string;
+    timeTaken: number;
   };
 }): Promise<any> => {
   try {

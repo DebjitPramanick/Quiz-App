@@ -125,6 +125,7 @@ class QuizModel {
       questionId: string;
       answer: string;
       score?: number;
+      timeTaken: number;
     };
   }): Promise<IQuiz | null> {
     try {
@@ -139,7 +140,8 @@ class QuizModel {
           {
             $set: {
               "questions.$.answer": data.answer,
-              "questions.$.score": data.score
+              "questions.$.score": data.score,
+              "questions.$.timeTaken": data.timeTaken,
             },
           }
         )

@@ -1,7 +1,47 @@
 import { styled } from "styled-components";
 
+export const SkeletonContainer = styled.div`
+  .skeleton-text {
+    background: #ebebeb;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skeleton-img {
+    background: #ebebeb;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .skeleton-img,
+  .skeleton-text {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(
+      to right,
+      #ebebeb 0%,
+      rgba(0, 0, 0, 0.05) 20%,
+      #ebebeb 40%,
+      #ebebeb 100%
+    );
+    background-repeat: no-repeat;
+    background-size: 450px 400px;
+    animation: shimmer 1.25s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -450px 0;
+    }
+    100% {
+      background-position: 450px 0;
+    }
+  }
+`;
+
 export const Button = styled.button`
-  width: 280px;
+  width: calc(100% - 40px);
   height: 50px;
   flex-shrink: 0;
   border-radius: 40px;
@@ -10,7 +50,14 @@ export const Button = styled.button`
   font-size: 18px;
   font-style: normal;
   font-weight: 900;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  &:disabled {
+    opacity: 0.4;
+  }
 `;
 
 export const QAContainer = styled.div`
@@ -164,4 +211,8 @@ export const AnswersCountCard = styled.div`
     font-style: normal;
     font-weight: 600;
   }
+`;
+
+export const CompletionTime = styled.p`
+  text-align: center;
 `;

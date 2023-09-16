@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
 
 export const PageLayout = styled.div`
-  width: 400px;
+  width: 450px;
   margin: auto;
   min-height: 100vh;
 
-  @media(max-width: 400px) {
+  @media(max-width: 450px) {
     width: 100vw
   }
 `;
