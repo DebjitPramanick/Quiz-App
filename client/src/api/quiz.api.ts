@@ -44,7 +44,18 @@ export const saveAnswerForQuestion = async ({
 
 export const finishQuiz = async (quizId: string) => {
   try {
-    let result = await api.post(`/quiz/${quizId}/finish`, {});
+    let result = await api.post(`/quiz/${quizId}/finish`);
+    result = result.data;
+    return result;
+  } catch (error: any) {
+    const message = error.response.data.message;
+    throw new Error(message);
+  }
+};
+
+export const getQuizReport = async (quizId: string) => {
+  try {
+    let result = await api.post(`/quiz/${quizId}/report`);
     result = result.data;
     return result;
   } catch (error: any) {

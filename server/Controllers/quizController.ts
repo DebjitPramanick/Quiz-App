@@ -2,11 +2,7 @@ import Database from "../Models/Database";
 import { Request, Response } from "express";
 import logger from "../Utils/Logger";
 import { IQuestion, IQuiz } from "../Types";
-import {
-  getQuizScore,
-  getScoreForAnswer,
-} from "../Utils/scoringHelper";
-import QUESTIONS from "../Questions.json";
+import { getQuizScore, getScoreForAnswer } from "../Utils/scoringHelper";
 
 export const getQuiz = async (req: Request, res: Response) => {
   try {
@@ -129,5 +125,46 @@ export const finishQuiz = async (req: Request, res: Response) => {
   } catch (err) {
     logger.error(err);
     res.status(500).json({ message: "Failed to generate quiz report." });
+  }
+};
+
+export const getReport = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.quizId;
+    const quiz = await Database.Quiz.get({
+      id,
+      fields: {
+        questions: 1,
+        totalScore: 1,
+        obtained: 1,
+        status: 1,
+      },
+    });
+    if (quiz?.status !== "finished") {
+      throw new Error("Couldn't find report. Quiz is not finished yet.");
+    }
+    const result = {
+      correct: 0,
+      inCorrect: 0,
+      percentage: 0,
+      totalScore: quiz.totalScore,
+      obtained: quiz.obtained,
+    };
+
+    result.percentage = Math.floor((quiz.obtained / quiz.totalScore) * 100);
+    result.correct = quiz.questions.filter(
+      (_q) => _q.correct_answer === _q.answer
+    ).length;
+    result.inCorrect = quiz.questions.filter(
+      (_q) => _q.correct_answer !== _q.answer
+    ).length;
+
+    res.status(200).json({
+      success: true,
+      result,
+    });
+  } catch (err) {
+    logger.error(err);
+    res.status(500).json({ message: "Failed to get quiz report." });
   }
 };

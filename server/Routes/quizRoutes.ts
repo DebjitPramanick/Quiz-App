@@ -3,6 +3,7 @@ import {
   finishQuiz,
   getAllQuizes,
   getQuiz,
+  getReport,
   saveQuestionWithAnswer,
   startQuiz,
 } from "../Controllers/quizController";
@@ -14,5 +15,6 @@ router.get("/all", getAllQuizes);
 router.post("/start", startQuiz);
 router.post("/:quizId/answer", saveQuestionWithAnswer);
 router.post("/:quizId/finish", finishQuiz);
+router.post("/:quizId/report", getReport);
 
 export default router;

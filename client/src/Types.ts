@@ -1,4 +1,3 @@
-
 export interface IQuestion {
   _id?: string;
   question: string;
@@ -20,4 +19,12 @@ export interface IQuiz {
   username: string;
   questions: IQuestion[];
   status: "in-progress" | "finished";
+}
+
+export interface IReport {
+  correct: number;
+  inCorrect: number;
+  percentage: number;
+  totalScore: number;
+  obtained: number;
 }

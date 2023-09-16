@@ -13,7 +13,7 @@ import Decorations from "../assets/Decorations";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { getQuiz, saveAnswerForQuestion } from "../api/quiz.api";
+import { finishQuiz, getQuiz, saveAnswerForQuestion } from "../api/quiz.api";
 import { IQuestion, IQuiz } from "../Types";
 
 const Questions = () => {
@@ -67,6 +67,7 @@ const Questions = () => {
         const isLastQuestion = curQuestionNum === quiz.questions.length;
 
         if (isLastQuestion) {
+          await finishQuiz(quiz._id);
           navigate(`/quiz/${quiz._id}/report`);
         } else {
           const nextQuestionId = quiz.questions[curQuestionNum]?._id;
@@ -129,7 +130,8 @@ const Questions = () => {
             onClick={handleGoToNext}
             disabled={!selectedOption}
           >
-            Next <ArrowIcon size={20} />
+            {curQuestionNum === quiz?.questions.length ? "Finsih" : "Next"}{" "}
+            <ArrowIcon size={20} />
           </Button>
         </QuestionSection>
       </QuestionPageLayout>
