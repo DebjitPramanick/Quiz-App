@@ -189,10 +189,19 @@ const Questions = () => {
             </div>
           ) : (
             <QAContainer style={{ marginTop: "100px" }}>
-              <QuestionText>{question?.question}</QuestionText>
+              <QuestionText>
+                {question?.question}{" "}
+                {(question?.correct_answers?.length ?? 0) > 1
+                  ? "(Multi Correct)"
+                  : ""}
+              </QuestionText>
               <div>
                 {question?.questionImg && (
-                  <img src={question?.questionImg} alt={question.question} width={"100%"}/>
+                  <img
+                    src={question?.questionImg}
+                    alt={question.question}
+                    width={"100%"}
+                  />
                 )}
               </div>
               {getOptions().map((_option) => (

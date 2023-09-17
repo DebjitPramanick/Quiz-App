@@ -132,7 +132,7 @@ const Report = () => {
                     </ReportChartContainer>
 
                     <CompletionTime>
-                      Completed in: {formatTime(report.totalTime)}
+                      Completed in: <span>{formatTime(report.totalTime)}</span>
                     </CompletionTime>
                     <div style={{ marginTop: "40px" }}>
                       <AnswersCountCard className="correct">
@@ -141,15 +141,16 @@ const Report = () => {
                         <p className="ans-status">Correct</p>
                       </AnswersCountCard>
 
-                      <AnswersCountCard className="correct">
-                        <div className="correct-dot"></div>
-                        <p className="ans-count">{report.partiallyCorrect}</p>
-                        <p className="ans-status">Partially Correct</p>
-                      </AnswersCountCard>
+                      {report.partiallyCorrect && (
+                        <AnswersCountCard className="partially correct">
+                          <div className="correct-dot partially"></div>
+                          <p className="ans-count">{report.partiallyCorrect}</p>
+                          <p className="ans-status">Partially Correct</p>
+                        </AnswersCountCard>
+                      )}
 
                       <AnswersCountCard className="incorrect">
                         <div className="incorrect-dot"></div>
-
                         <p className="ans-count">{report.inCorrect}</p>
                         <p className="ans-status">Incorrect</p>
                       </AnswersCountCard>

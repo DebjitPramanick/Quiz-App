@@ -73,7 +73,7 @@ export const OptionCard = styled.div`
   border-radius: 10px;
   background: #f3f4fa;
   color: #000;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   cursor: pointer;
@@ -192,8 +192,8 @@ export const ReportChartContainer = styled.div`
     bottom: 0;
     right: 0;
     left: 0;
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
     background: #fff;
     display: flex;
     justify-content: center;
@@ -209,8 +209,8 @@ export const ReportChartContainer = styled.div`
       align-items: center;
       justify-content: center;
       border: 2px #ebedf5 solid;
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       border-radius: 100%;
     }
 
@@ -249,6 +249,10 @@ export const AnswersCountCard = styled.div`
     flex-shrink: 0;
     background: #44b77b;
     border-radius: 100%;
+
+    &.partially {
+      background: #b78944;
+    }
   }
 
   .incorrect-dot {
@@ -261,6 +265,10 @@ export const AnswersCountCard = styled.div`
 
   &.correct {
     background: #44b77b1c;
+
+    &.partially {
+      background: #b789441c;
+    }
   }
 
   &.incorrect {
@@ -275,7 +283,7 @@ export const AnswersCountCard = styled.div`
   }
 
   .ans-status {
-    color: #000;
+    color: #00000080;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -284,4 +292,12 @@ export const AnswersCountCard = styled.div`
 
 export const CompletionTime = styled.p`
   text-align: center;
+  color: #00000080;
+
+  span {
+    color: #000000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900;
+  }
 `;
