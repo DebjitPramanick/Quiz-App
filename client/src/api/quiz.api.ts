@@ -29,7 +29,7 @@ export const saveAnswerForQuestion = async ({
   quizId: string;
   data: {
     questionId: string;
-    answer: string;
+    answers: string[];
     timeTaken: number;
   };
 }): Promise<any> => {

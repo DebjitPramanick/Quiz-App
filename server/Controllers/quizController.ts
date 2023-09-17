@@ -59,7 +59,7 @@ export const startQuiz = async (req: Request, res: Response) => {
 export const saveQuestionWithAnswer = async (req: Request, res: Response) => {
   try {
     const id = req.params.quizId;
-    const data: { questionId: string; answer: string; timeTaken: number } =
+    const data: { questionId: string; answers: string[]; timeTaken: number } =
       req.body ?? {};
 
     const question = await Database.Question.get({
@@ -72,15 +72,14 @@ export const saveQuestionWithAnswer = async (req: Request, res: Response) => {
 
     const payload: {
       questionId: string;
-      answer: string;
+      answers: string[];
       score?: number;
       timeTaken: number;
     } = { ...data };
 
-    const isCorrect = question.correct_answer === data.answer;
     payload.score = getScoreForAnswer({
-      difficulty: question.difficulty,
-      isCorrect,
+      question,
+      answers: data?.answers ?? [],
     });
 
     const result = await Database.Quiz.saveQuestionsWithAnswers({
@@ -147,6 +146,7 @@ export const getReport = async (req: Request, res: Response) => {
     }
     const result = {
       correct: 0,
+      partiallyCorrect: 0,
       inCorrect: 0,
       percentage: 0,
       totalScore: quiz.totalScore,
@@ -155,12 +155,14 @@ export const getReport = async (req: Request, res: Response) => {
     };
 
     result.percentage = Math.floor((quiz.obtained / quiz.totalScore) * 100);
-    result.correct = quiz.questions.filter(
-      (_q) => _q.correct_answer === _q.answer
+    result.correct = quiz.questions.filter((_q) =>
+      _q.correct_answers.every((_ans) => _q.answers.includes(_ans))
     ).length;
-    result.inCorrect = quiz.questions.filter(
-      (_q) => _q.correct_answer !== _q.answer
+    result.partiallyCorrect = quiz.questions.filter((_q) =>
+      _q.correct_answers.some((_ans) => _q.answers.includes(_ans))
     ).length;
+    result.inCorrect =
+      quiz.questions.length - (result.correct + result.partiallyCorrect);
 
     result.totalTime = quiz.questions.reduce(
       (prev, cur) => (cur.timeTaken ?? 0) + prev,

@@ -3,8 +3,8 @@ export interface IQuestion {
   question: string;
   difficulty: "easy" | "medium" | "hard";
   points: number;
-  answer: string;
-  correct_answer: string;
+  answers: string;
+  correct_answers: string[];
   incorrect_answers: string[];
   type: string;
   timeTaken?: number;
@@ -24,6 +24,7 @@ export interface IQuiz {
 export interface IReport {
   correct: number;
   inCorrect: number;
+  partiallyCorrect: number;
   percentage: number;
   totalScore: number;
   obtained: number;

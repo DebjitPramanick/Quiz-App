@@ -8,17 +8,20 @@ class QuizModel {
     question: {
       type: String,
     },
+    questionImg: {
+      type: String,
+    },
     difficulty: {
       type: String,
     },
     score: {
       type: Number,
     },
-    answer: {
-      type: String,
+    answers: {
+      type: [String],
     },
-    correct_answer: {
-      type: String,
+    correct_answers: {
+      type: [String],
     },
     incorrect_answers: {
       type: [String],
@@ -38,10 +41,6 @@ class QuizModel {
     obtained: {
       type: Number,
       default: 0,
-    },
-    username: {
-      type: String,
-      default: "",
     },
     questions: [this.questionSchema],
     status: {
@@ -123,7 +122,7 @@ class QuizModel {
     id: IdOrString;
     data: {
       questionId: string;
-      answer: string;
+      answers: string[];
       score?: number;
       timeTaken: number;
     };
@@ -139,7 +138,7 @@ class QuizModel {
           },
           {
             $set: {
-              "questions.$.answer": data.answer,
+              "questions.$.answers": data.answers,
               "questions.$.score": data.score,
               "questions.$.timeTaken": data.timeTaken,
             },

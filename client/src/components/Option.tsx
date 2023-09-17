@@ -3,22 +3,22 @@ import { OptionCard } from "../styles/component";
 
 const Option = ({
   option,
-  selected,
+  isSelected,
   selectOption,
 }: {
   option: string;
-  selected: string;
+  isSelected: boolean;
   selectOption: (_opt: string) => void;
 }) => {
   return (
     <OptionCard
-      className={selected === option ? "selected-opt" : ""}
+      className={isSelected ? "selected-opt" : ""}
       onClick={() => selectOption(option)}
     >
       <input
         type="radio"
         style={{ width: "18px", cursor: "pointer" }}
-        checked={selected === option}
+        checked={isSelected}
         onChange={() => {
           selectOption(option);
         }}

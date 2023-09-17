@@ -39,6 +39,8 @@ const Report = () => {
         }
       } catch (error) {
         alertError("Failed to get the report. Please try again later.");
+        setIsConfettiActive(false);
+        setFetchingReport(false);
       }
     };
 
@@ -112,6 +114,12 @@ const Report = () => {
                       <div className="correct-dot"></div>
                       <p className="ans-count">{report.correct}</p>
                       <p className="ans-status">Correct</p>
+                    </AnswersCountCard>
+
+                    <AnswersCountCard className="correct">
+                      <div className="correct-dot"></div>
+                      <p className="ans-count">{report.partiallyCorrect}</p>
+                      <p className="ans-status">Partially Correct</p>
                     </AnswersCountCard>
 
                     <AnswersCountCard className="incorrect">

@@ -4,7 +4,9 @@
         "type": "boolean",
         "difficulty": "medium",
         "question": "The HTML5 standard was published in 2014.",
-        "correct_answer": "True",
+        "correct_answers": [
+            "True"
+        ],
         "incorrect_answers": [
             "False"
         ]
@@ -14,7 +16,9 @@
         "type": "multiple",
         "difficulty": "easy",
         "question": "What does CPU stand for?",
-        "correct_answer": "Central Processing Unit",
+        "correct_answers": [
+            "Central Processing Unit"
+        ],
         "incorrect_answers": [
             "Central Process Unit",
             "Computer Personal Unit",
@@ -24,11 +28,15 @@
     {
         "category": "Science: Computers",
         "type": "boolean",
-        "difficulty": "easy",
-        "question": "Linus Torvalds created Linux and Git.",
-        "correct_answer": "True",
+        "difficulty": "medium",
+        "question": "Which are used to create backend of an application?",
+        "correct_answers": [
+            "Node JS",
+            "Spring Boot"
+        ],
         "incorrect_answers": [
-            "False"
+            "React JS",
+            "Vue JS"
         ]
     },
     {
@@ -36,7 +44,9 @@
         "type": "multiple",
         "difficulty": "medium",
         "question": "In programming, the ternary operator is mostly defined with what symbol(s)?",
-        "correct_answer": "?:",
+        "correct_answers": [
+            "?:"
+        ],
         "incorrect_answers": [
             "??",
             "if then",
@@ -47,21 +57,11 @@
         "category": "Science: Computers",
         "type": "multiple",
         "difficulty": "hard",
-        "question": "Which RAID array type is associated with data mirroring?",
-        "correct_answer": "RAID 1",
-        "incorrect_answers": [
-            "RAID 0",
-            "RAID 10",
-            "RAID 5"
-        ]
-    },
-    {
-        "category": "Science: Computers",
-        "type": "multiple",
-        "difficulty": "hard",
         "question": "Who invented the 'Spanning Tree Protocol'?",
         "questionImg": "https://study-ccna.com/wp-content/images/stp_topology.jpg",
-        "correct_answer": "Radia Perlman",
+        "correct_answers": [
+            "Radia Perlman"
+        ],
         "incorrect_answers": [
             "Paul Vixie",
             "Vint Cerf",
@@ -73,7 +73,9 @@
         "type": "multiple",
         "difficulty": "medium",
         "question": "In programming, what do you call functions with the same name but different implementations?",
-        "correct_answer": "Overloading",
+        "correct_answers": [
+            "Overloading"
+        ],
         "incorrect_answers": [
             "Overriding",
             "Abstracting",
@@ -85,7 +87,9 @@
         "type": "boolean",
         "difficulty": "easy",
         "question": "The Python programming language gets its name from the British comedy group 'Monty Python'",
-        "correct_answer": "True",
+        "correct_answers": [
+            "True"
+        ],
         "incorrect_answers": [
             "False"
         ]
@@ -95,8 +99,9 @@
         "type": "multiple",
         "difficulty": "easy",
         "question": "What language does Node.js use?",
-        "questionImg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaf7coqnBSjCrWKkLrzFHM_2yWMWGfDI-rjQ",
-        "correct_answer": "JavaScript",
+        "correct_answers": [
+            "JavaScript"
+        ],
         "incorrect_answers": [
             "Java",
             "Java Source",
@@ -108,11 +113,28 @@
         "type": "multiple",
         "difficulty": "hard",
         "question": "What is the codename of the eighth generation Intel Core micro-architecture launched in October 2017?",
-        "correct_answer": "Coffee Lake",
+        "correct_answers": [
+            "Coffee Lake"
+        ],
         "incorrect_answers": [
             "Sandy Bridge",
             "Skylake",
             "Broadwell"
+        ]
+    },
+    {
+        "category": "Science: Computers",
+        "type": "multiple",
+        "difficulty": "medium",
+        "question": "Which are object-oriented languages?",
+        "questionImg": "https://t4.ftcdn.net/jpg/02/82/83/43/360_F_282834358_GsI73ouaSfAthZbVOW11QTF8br45kHKr.jpg",
+        "correct_answers": [
+            "Javascript",
+            "Java"
+        ],
+        "incorrect_answers": [
+            "C",
+            "Pascal"
         ]
     }
 ]

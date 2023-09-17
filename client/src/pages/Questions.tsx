@@ -26,7 +26,7 @@ const Questions = () => {
   const [quiz, setQuiz] = useState<IQuiz | null>(null);
   const [question, setQuestion] = useState<IQuestion | null>(null);
   const [curQuestionNum, setCurQuestionNum] = useState(0);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [startingTime, setStartingTime] = useState<number>(0);
   const [savingAnswer, setSavingAnswer] = useState(false);
   const [fetchingQuestion, setFetchingQuestion] = useState(false);
@@ -50,8 +50,10 @@ const Questions = () => {
             navigate(`/quiz/${_quiz._id}/report`);
           }
 
-          if (_question.answer) {
-            const questionToAnswer = _quiz.questions.find((_q) => !_q.answer);
+          if (_question.answers?.length) {
+            const questionToAnswer = _quiz.questions.find(
+              (_q) => !_q.answers?.length
+            );
             if (questionToAnswer) {
               navigate(`/quiz/${_quiz._id}/question/${questionToAnswer._id}`);
             } else {
@@ -88,23 +90,23 @@ const Questions = () => {
 
   const handleGoToNext = async () => {
     try {
-      if (!quiz?._id || !question?._id || !selectedOption) {
+      if (!quiz?._id || !question?._id || !selectedOptions?.length) {
         return;
       }
       setSavingAnswer(true);
-      const answer = selectedOption;
+      const answers = selectedOptions;
       let timeTaken = Math.floor((Date.now() - startingTime) / 1000);
       const response = await saveAnswerForQuestion({
         quizId: quiz._id,
         data: {
           questionId: question._id,
-          answer,
+          answers,
           timeTaken,
         },
       });
       if (response.success) {
         const isLastQuestion = curQuestionNum === quiz.questions.length;
-        setSelectedOption("");
+        setSelectedOptions([]);
         setSavingAnswer(false);
         setStartingTime(0);
         localStorage.removeItem("startingTime");
@@ -130,7 +132,7 @@ const Questions = () => {
   const getOptions = () => {
     if (!question) return [];
     const options = [...(question.incorrect_answers ?? [])];
-    options.push(question.correct_answer);
+    options.push(...question.correct_answers);
     return options;
   };
 
@@ -188,14 +190,34 @@ const Questions = () => {
           ) : (
             <QAContainer style={{ marginTop: "100px" }}>
               <QuestionText>{question?.question}</QuestionText>
+              <div>
+                {question?.questionImg && (
+                  <img src={question?.questionImg} alt={question.question} width={"100%"}/>
+                )}
+              </div>
               {getOptions().map((_option) => (
                 <Option
                   key={_option}
                   option={_option}
                   selectOption={(value) => {
-                    setSelectedOption(value);
+                    const isMultiSelect =
+                      (question?.correct_answers?.length ?? 0) > 1;
+                    if (isMultiSelect) {
+                      if (selectedOptions.includes(value)) {
+                        setSelectedOptions((prev) => {
+                          let newSel = prev.filter(
+                            (_option) => _option !== value
+                          );
+                          return newSel;
+                        });
+                      } else {
+                        setSelectedOptions((prev) => [...prev, value]);
+                      }
+                    } else {
+                      setSelectedOptions([value]);
+                    }
                   }}
-                  selected={selectedOption}
+                  isSelected={selectedOptions.includes(_option)}
                 />
               ))}
             </QAContainer>
@@ -204,10 +226,10 @@ const Questions = () => {
           <Button
             style={{ margin: "auto" }}
             onClick={handleGoToNext}
-            disabled={!selectedOption}
+            disabled={!selectedOptions?.length}
           >
             {savingAnswer && <Spinner />}
-            {curQuestionNum === quiz?.questions.length ? "Finsih" : "Next"}{" "}
+            {curQuestionNum === quiz?.questions.length ? "Finish" : "Next"}{" "}
             <ArrowIcon size={20} />
           </Button>
         </QuestionSection>

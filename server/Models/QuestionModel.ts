@@ -17,8 +17,8 @@ class QuestionModel {
     answer: {
       type: String,
     },
-    correct_answer: {
-      type: String,
+    correct_answers: {
+      type: [String],
     },
     incorrect_answers: {
       type: [String],

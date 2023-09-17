@@ -1,19 +1,38 @@
 import { IQuestion } from "../Types";
 
 export const getScoreForAnswer = ({
-  difficulty = "easy",
-  isCorrect,
+  question,
+  answers,
 }: {
-  difficulty: "easy" | "medium" | "hard";
-  isCorrect: boolean;
+  question: IQuestion;
+  answers: string[];
 }) => {
+  const difficulty = question.difficulty;
+
+  const isCorrect = question.correct_answers.every((_ans) =>
+    answers.includes(_ans)
+  );
+  let givenCorrectAns: number = 0;
+  if (!isCorrect) {
+    givenCorrectAns = answers.filter((_ans) =>
+      question.correct_answers.includes(_ans)
+    ).length;
+  }
+
   let points = 1; // Default score for easy questions
   if (difficulty === "medium") {
     points = 2;
   } else if (difficulty === "hard") {
     points = 3;
   }
-  if (isCorrect) return points;
+  if (isCorrect) {
+    return points;
+  } else if (givenCorrectAns) {
+    points = parseFloat(
+      ((points / question.correct_answers.length) * givenCorrectAns).toFixed(2)
+    );
+    return points;
+  }
   return 0;
 };
 
