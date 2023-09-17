@@ -77,6 +77,7 @@ export const saveQuestionWithAnswer = async (req: Request, res: Response) => {
       timeTaken: number;
     } = { ...data };
 
+    // Getting score obtained for the answer
     payload.score = getScoreForAnswer({
       question,
       answers: data?.answers ?? [],
@@ -109,7 +110,11 @@ export const finishQuiz = async (req: Request, res: Response) => {
     if (!quiz?.questions?.length) {
       throw new Error("No questions found for the quiz");
     }
+
+    // Getting total score and score obtained
     const score = getQuizScore(quiz.questions);
+
+    // Updating the quiz with score data and status
     const result = await Database.Quiz.update({
       id,
       data: {
@@ -132,6 +137,8 @@ export const finishQuiz = async (req: Request, res: Response) => {
 export const getReport = async (req: Request, res: Response) => {
   try {
     const id = req.params.quizId;
+
+    // Getting quiz data
     const quiz = await Database.Quiz.get({
       id,
       fields: {
@@ -141,9 +148,13 @@ export const getReport = async (req: Request, res: Response) => {
         status: 1,
       },
     });
+
+    // If quiz is not finished then there is not report
     if (quiz?.status !== "finished") {
       throw new Error("Couldn't find report. Quiz is not finished yet.");
     }
+
+    // Set default values for report
     const result = {
       correct: 0,
       partiallyCorrect: 0,
@@ -154,16 +165,28 @@ export const getReport = async (req: Request, res: Response) => {
       totalTime: 0,
     };
 
+    // Getting percentage marks
     result.percentage = Math.floor((quiz.obtained / quiz.totalScore) * 100);
-    result.correct = quiz.questions.filter((_q) =>
-      _q.correct_answers.every((_ans) => _q.answers.includes(_ans))
-    ).length;
-    result.inCorrect = quiz.questions.filter((_q) =>
-      _q.correct_answers.every((_ans) => !_q.answers.includes(_ans))
-    ).length;
-    result.partiallyCorrect =
-      quiz.questions.length - (result.correct + result.inCorrect);
 
+    // Getting number of correct, incorrect and partially correct qna
+    for (let _question of quiz.questions) {
+      const isCorrect = _question.correct_answers.every((_ans) =>
+        _question.answers?.includes(_ans)
+      );
+      const isPartiallyCorrect = _question.answers?.every((_ans) =>
+        _question.correct_answers.includes(_ans)
+      );
+
+      if (isCorrect) {
+        result.correct += 1;
+      } else if (isPartiallyCorrect) {
+        result.partiallyCorrect += 1;
+      } else {
+        result.inCorrect += 1;
+      }
+    }
+
+    // Getting total time to complete the quiz
     result.totalTime = quiz.questions.reduce(
       (prev, cur) => (cur.timeTaken ?? 0) + prev,
       0

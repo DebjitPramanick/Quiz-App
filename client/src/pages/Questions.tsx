@@ -46,11 +46,14 @@ const Questions = () => {
             ) ?? null;
           const _question = _quiz.questions?.[_questionIdx];
 
+          // If quiz is finished, redirect user to report page
           if (_quiz.status === "finished") {
             navigate(`/quiz/${_quiz._id}/report`);
-          }
-
-          if (_question.answers?.length) {
+            return;
+          } 
+          // If question is already answered redirect to the question 
+          // which is not answered
+          else if (_question.answers?.length) { 
             const questionToAnswer = _quiz.questions.find(
               (_q) => !_q.answers?.length
             );
@@ -65,6 +68,8 @@ const Questions = () => {
           setQuestion(_question);
           setCurQuestionNum(_questionIdx + 1);
 
+          // Get the cached start time when user started to solved the question
+          // Needed if page is reloaded
           let cachedTime = localStorage.getItem("startingTime");
           let _startingTime = cachedTime ? parseInt(cachedTime, 10) : 0;
           if (!_startingTime) {
@@ -94,6 +99,8 @@ const Questions = () => {
         return;
       }
       setSavingAnswer(true);
+
+      // Saving the answer of current question
       const answers = selectedOptions;
       let timeTaken = Math.floor((Date.now() - startingTime) / 1000);
       const response = await saveAnswerForQuestion({
@@ -105,6 +112,9 @@ const Questions = () => {
         },
       });
       if (response.success) {
+
+        // If last question go to report
+        // Else go to next question
         const isLastQuestion = curQuestionNum === quiz.questions.length;
         setSelectedOptions([]);
         setSavingAnswer(false);

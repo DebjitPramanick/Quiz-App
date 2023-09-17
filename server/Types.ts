@@ -7,7 +7,7 @@ export interface IQuestion {
   question: string;
   difficulty: "easy" | "medium" | "hard";
   score: number;
-  answers: string[];
+  answers?: string[];
   correct_answers: string[];
   incorrect_answers: string[];
   type: string;

@@ -18,6 +18,7 @@ const StartPage = () => {
       const response: any = await startQuiz();
       if (response.success) {
         const quiz = response.result;
+        // Getting the first question ID to redirect user
         const firstQuestion = quiz.questions?.[0];
         const quizId = response.result._id;
         navigate(`quiz/${quizId}/question/${firstQuestion._id}`);

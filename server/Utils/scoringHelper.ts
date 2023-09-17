@@ -1,5 +1,6 @@
 import { IQuestion } from "../Types";
 
+// Used to get obtained score when saving the answer for the question
 export const getScoreForAnswer = ({
   question,
   answers,
@@ -7,6 +8,15 @@ export const getScoreForAnswer = ({
   question: IQuestion;
   answers: string[];
 }) => {
+
+  /*
+  Logic:
+  - If correct answer based on the difficulty return the points
+  - If partially correct answer for multiple choice questions
+    return fractional points for correct answers
+  - Else return 0
+  */
+
   const difficulty = question.difficulty;
 
   const isCorrect = question.correct_answers.every((_ans) =>
@@ -14,9 +24,14 @@ export const getScoreForAnswer = ({
   );
   let givenCorrectAns: number = 0;
   if (!isCorrect) {
-    givenCorrectAns = answers.filter((_ans) =>
+    let isPartiallyCorrect = answers.every((_ans) =>
       question.correct_answers.includes(_ans)
-    ).length;
+    );
+    if (isPartiallyCorrect) {
+      givenCorrectAns = answers.filter((_ans) =>
+        question.correct_answers.includes(_ans)
+      ).length;
+    }
   }
 
   let points = 1; // Default score for easy questions
@@ -36,6 +51,8 @@ export const getScoreForAnswer = ({
   return 0;
 };
 
+// Used to get total points for the quiz and obtained score at the time of
+// finishing the quiz
 export const getQuizScore = (questions: IQuestion[]) => {
   let totalPoints = 0,
     obtained = 0;

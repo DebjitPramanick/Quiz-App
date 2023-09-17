@@ -22,6 +22,7 @@ class Database {
     return;
   }
 
+  // Connecting the Database
   async authenticate() {
     logger.info("Authenticating to the database.");
     try {
