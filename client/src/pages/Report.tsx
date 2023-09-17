@@ -6,6 +6,8 @@ import {
   AnswersCountCard,
   Button,
   CompletionTime,
+  ReportChartContainer,
+  ReportMetadataContainer,
   ResultText,
 } from "../styles/component";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,6 +16,7 @@ import { IReport } from "../Types";
 import { alertError } from "../utils/toastUtils";
 import Confetti from "react-confetti";
 import Skeleton from "../components/Skeleton";
+import ReactSpeedometer from "react-d3-speedometer";
 
 const Report = () => {
   const params = useParams();
@@ -65,7 +68,8 @@ const Report = () => {
     <PageLayout>
       <QuestionPageLayout>
         <Confetti
-          width={450}
+          width={Math.min(450, window.innerWidth)}
+          height={window.innerHeight}
           numberOfPieces={!isConfettiActive ? 0 : 200}
           gravity={0.2}
         />
@@ -103,34 +107,56 @@ const Report = () => {
           ) : (
             <>
               <ResultText>Your Result</ResultText>
-              {report && (
-                <>
-                  <p>{report?.percentage} %</p>
-                  <CompletionTime>
-                    Completed in: {formatTime(report.totalTime)}
-                  </CompletionTime>
-                  <div style={{ marginTop: "40px" }}>
-                    <AnswersCountCard className="correct">
-                      <div className="correct-dot"></div>
-                      <p className="ans-count">{report.correct}</p>
-                      <p className="ans-status">Correct</p>
-                    </AnswersCountCard>
+              <ReportMetadataContainer>
+                {report && (
+                  <>
+                    <ReportChartContainer>
+                      <div className="bg-style">
+                        <div className="slice"></div>
+                      </div>
+                      <div style={{ zIndex: 9 }}>
+                        <ReactSpeedometer
+                          needleColor="#000"
+                          value={report.percentage}
+                          maxValue={100}
+                          minValue={0}
+                          ringWidth={20}
+                          height={200}
+                        />
+                      </div>
+                      <div className="report-percentage">
+                        <div className="txt-container">
+                          <p className="percent-count">{report.percentage} %</p>
+                        </div>
+                      </div>
+                    </ReportChartContainer>
 
-                    <AnswersCountCard className="correct">
-                      <div className="correct-dot"></div>
-                      <p className="ans-count">{report.partiallyCorrect}</p>
-                      <p className="ans-status">Partially Correct</p>
-                    </AnswersCountCard>
+                    <CompletionTime>
+                      Completed in: {formatTime(report.totalTime)}
+                    </CompletionTime>
+                    <div style={{ marginTop: "40px" }}>
+                      <AnswersCountCard className="correct">
+                        <div className="correct-dot"></div>
+                        <p className="ans-count">{report.correct}</p>
+                        <p className="ans-status">Correct</p>
+                      </AnswersCountCard>
 
-                    <AnswersCountCard className="incorrect">
-                      <div className="incorrect-dot"></div>
+                      <AnswersCountCard className="correct">
+                        <div className="correct-dot"></div>
+                        <p className="ans-count">{report.partiallyCorrect}</p>
+                        <p className="ans-status">Partially Correct</p>
+                      </AnswersCountCard>
 
-                      <p className="ans-count">{report.inCorrect}</p>
-                      <p className="ans-status">Incorrect</p>
-                    </AnswersCountCard>
-                  </div>
-                </>
-              )}
+                      <AnswersCountCard className="incorrect">
+                        <div className="incorrect-dot"></div>
+
+                        <p className="ans-count">{report.inCorrect}</p>
+                        <p className="ans-status">Incorrect</p>
+                      </AnswersCountCard>
+                    </div>
+                  </>
+                )}
+              </ReportMetadataContainer>
               <Button onClick={handleStartAgain}>Start Again</Button>
             </>
           )}

@@ -158,11 +158,11 @@ export const getReport = async (req: Request, res: Response) => {
     result.correct = quiz.questions.filter((_q) =>
       _q.correct_answers.every((_ans) => _q.answers.includes(_ans))
     ).length;
-    result.partiallyCorrect = quiz.questions.filter((_q) =>
-      _q.correct_answers.some((_ans) => _q.answers.includes(_ans))
+    result.inCorrect = quiz.questions.filter((_q) =>
+      _q.correct_answers.every((_ans) => !_q.answers.includes(_ans))
     ).length;
-    result.inCorrect =
-      quiz.questions.length - (result.correct + result.partiallyCorrect);
+    result.partiallyCorrect =
+      quiz.questions.length - (result.correct + result.inCorrect);
 
     result.totalTime = quiz.questions.reduce(
       (prev, cur) => (cur.timeTaken ?? 0) + prev,

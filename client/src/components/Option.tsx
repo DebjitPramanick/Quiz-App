@@ -17,7 +17,11 @@ const Option = ({
     >
       <input
         type="radio"
-        style={{ width: "18px", cursor: "pointer" }}
+        style={{
+          width: "18px",
+          cursor: "pointer",
+          color: isSelected ? "#35D299" : "",
+        }}
         checked={isSelected}
         onChange={() => {
           selectOption(option);

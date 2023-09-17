@@ -25,7 +25,6 @@ export const StartPageLayout = styled.div`
     justify-content: center;
     color: #ff3b3c;
     text-align: center;
-    font-family: Poppins;
     font-size: 80px;
     font-style: normal;
     font-weight: 800;
@@ -40,7 +39,7 @@ export const StartPageLayout = styled.div`
 
   button {
     position: absolute;
-    bottom: 60px;
+    bottom: 30px;
     left: 0;
     right: 0;
     margin: auto;
@@ -56,7 +55,7 @@ export const QuestionPageLayout = styled.div`
 
   button {
     position: absolute;
-    bottom: 60px;
+    bottom: 30px;
     left: 0;
     right: 0;
     margin: auto;
