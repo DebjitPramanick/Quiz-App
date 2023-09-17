@@ -12,11 +12,9 @@ export const getQuiz = async (req: Request, res: Response) => {
       success: true,
       result,
     });
-  } catch (err) {
+  } catch (err: any) {
     logger.error(err);
-    res
-      .status(500)
-      .json({ message: "Failed to get quiz details. Please try again later." });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -28,11 +26,9 @@ export const getAllQuizes = async (req: Request, res: Response) => {
       success: true,
       result,
     });
-  } catch (err) {
+  } catch (err: any) {
     logger.error(err);
-    res
-      .status(500)
-      .json({ message: "Failed to get all quizes. Please try again later." });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -50,9 +46,7 @@ export const startQuiz = async (req: Request, res: Response) => {
     });
   } catch (err: any) {
     logger.error(err);
-    res
-      .status(500)
-      .json({ message: "Failed to start quiz. Please try again later." });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -92,9 +86,9 @@ export const saveQuestionWithAnswer = async (req: Request, res: Response) => {
       success: true,
       result: result,
     });
-  } catch (err) {
+  } catch (err: any) {
     logger.error(err);
-    res.status(500).json({ message: "Failed to save the response." });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -128,9 +122,9 @@ export const finishQuiz = async (req: Request, res: Response) => {
       success: true,
       result,
     });
-  } catch (err) {
+  } catch (err: any) {
     logger.error(err);
-    res.status(500).json({ message: "Failed to generate quiz report." });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -196,8 +190,8 @@ export const getReport = async (req: Request, res: Response) => {
       success: true,
       result,
     });
-  } catch (err) {
-    logger.error(err);
-    res.status(500).json({ message: "Failed to get quiz report." });
+  } catch (err: any) {
+    logger.error(err.message);
+    res.status(500).json({ message: err.message });
   }
 };

@@ -6,6 +6,7 @@ import {
   AnswersCountCard,
   Button,
   CompletionTime,
+  ErrorMessage,
   ReportChartContainer,
   ReportMetadataContainer,
   ResultText,
@@ -13,7 +14,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { getQuizReport } from "../api/quiz.api";
 import { IReport } from "../Types";
-import { alertError } from "../utils/toastUtils";
 import Confetti from "react-confetti";
 import Skeleton from "../components/Skeleton";
 import ReactSpeedometer from "react-d3-speedometer";
@@ -25,6 +25,7 @@ const Report = () => {
   const [report, setReport] = useState<IReport | null>(null);
   const [isConfettiActive, setIsConfettiActive] = useState(true);
   const [fetchingReport, setFetchingReport] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -40,8 +41,8 @@ const Report = () => {
             setFetchingReport(false);
           }, 1500);
         }
-      } catch (error) {
-        alertError("Failed to get the report. Please try again later.");
+      } catch (error: any) {
+        setErrorMsg(error.message);
         setIsConfettiActive(false);
         setFetchingReport(false);
       }
@@ -107,6 +108,7 @@ const Report = () => {
           ) : (
             <>
               <ResultText>Your Result</ResultText>
+              {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
               <ReportMetadataContainer>
                 {report && (
                   <>

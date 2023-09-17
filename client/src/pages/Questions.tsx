@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { PageLayout, QuestionPageLayout } from "../styles/layouts";
 import { QuestionSection } from "../styles/pages";
 import Option from "../components/Option";
@@ -82,8 +82,8 @@ const Questions = () => {
             setFetchingQuestion(false);
           }, 1000);
         }
-      } catch (error) {
-        alertError("Failed to get the question. Please try again.");
+      } catch (error: any) {
+        alertError(error.message);
         setFetchingQuestion(false);
       }
     };
@@ -133,8 +133,8 @@ const Questions = () => {
           }
         }
       }
-    } catch (error) {
-      alertError("Failed to save your answer. Please try again.");
+    } catch (error: any) {
+      alertError(error.message);
       setSavingAnswer(false);
     }
   };

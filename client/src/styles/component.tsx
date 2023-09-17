@@ -301,3 +301,13 @@ export const CompletionTime = styled.p`
     font-weight: 900;
   }
 `;
+
+export const ErrorMessage = styled.div`
+  color: #ff3b3f;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  background: #ff3b3f1c;
+  padding: 2px 6px;
+  border-radius: 4px;
+`;

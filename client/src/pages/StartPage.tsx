@@ -4,7 +4,7 @@ import { Button } from "../styles/component";
 import { PageLayout } from "../styles/layouts";
 import { StartPageLayout } from "../styles/layouts";
 import { useNavigate } from "react-router-dom";
-import { alertError } from "../utils/toastUtils";
+import { alertError, alertInfo } from "../utils/toastUtils";
 import Spinner from "../components/Spinner";
 import Logo from "../assets/Logo";
 
@@ -15,6 +15,9 @@ const StartPage = () => {
   const handleStartQuiz = async () => {
     try {
       setStartingQuiz(true);
+      let timeout = setTimeout(() => {
+        alertInfo("Server needs some time to restart. Please wait.");
+      }, 3000);
       const response: any = await startQuiz();
       if (response.success) {
         const quiz = response.result;
@@ -22,7 +25,11 @@ const StartPage = () => {
         const firstQuestion = quiz.questions?.[0];
         const quizId = response.result._id;
         navigate(`quiz/${quizId}/question/${firstQuestion._id}`);
+        clearTimeout(timeout);
       }
+      // Removing cached data
+      localStorage.removeItem("startingTime");
+
       setStartingQuiz(false);
     } catch (error: any) {
       alertError(error.message);
