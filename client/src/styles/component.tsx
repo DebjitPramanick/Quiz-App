@@ -225,7 +225,7 @@ export const ReportChartContainer = styled.div`
 `;
 
 export const ReportMetadataContainer = styled.div`
-  max-height: calc(100% - 180px);
+  max-height: calc(100% - 130px);
   overflow-y: scroll;
 `;
 
